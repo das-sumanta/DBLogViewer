@@ -1,13 +1,12 @@
 package com.tcs.webservices;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Properties;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -37,14 +36,23 @@ public class JobLogServ {
         String strData = "";
         String finalStr = "";
         
+        Properties prop = new Properties();
+        InputStream propertiesInputStream = null;
+        
         
         try 
         {
         
+        	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			propertiesInputStream = classLoader.getResourceAsStream("com/tcs/webservices/dbprop.properties");
+			prop.load(propertiesInputStream);
+			propertiesInputStream.close();
 			
-			Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://192.168.225.109:3306/wso2devregdb", "devdbusr", "devdbusr");
+        	Class.forName("com.mysql.jdbc.Driver");
+            //con = DriverManager.getConnection("jdbc:mysql://192.168.225.109:3306/wso2devregdb", "devdbusr", "devdbusr");
 
+        	con = DriverManager.getConnection(prop.getProperty("LogDBURL"), prop.getProperty("LogDBUID"), prop.getProperty("LogDBPwd"));
+        	
             //String query = "SELECT job_id, runid, entity, run_mode, ExtractStart, ExtractEnd, S3LoadStart, S3LoadEnd, RedShiftLoadStart, RedShiftLoadEnd, job_status, subsidiary_id FROM job_log;";
             
             String query = "select job_id, runid, entity, run_mode, ExtractStart, ExtractEnd, S3LoadStart, S3LoadEnd, RedShiftLoadStart, RedShiftLoadEnd, job_status, subsidiary_id from job_log a"
@@ -139,10 +147,20 @@ public class JobLogServ {
         String strHeader = ""; 
         String strData = "";
         String finalStr = "";
+        
+        Properties prop = new Properties();
+        InputStream propertiesInputStream = null;
+        
 		try 
         {
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			propertiesInputStream = classLoader.getResourceAsStream("com/tcs/webservices/dbprop.properties");
+			prop.load(propertiesInputStream);
+			propertiesInputStream.close();
+			
 			Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://192.168.225.109:3306/wso2devregdb", "devdbusr", "devdbusr");
+            //con = DriverManager.getConnection("jdbc:mysql://192.168.225.109:3306/wso2devregdb", "devdbusr", "devdbusr");
+            con = DriverManager.getConnection(prop.getProperty("LogDBURL"), prop.getProperty("LogDBUID"), prop.getProperty("LogDBPwd"));
             //String query = "SELECT job_id, runid, entity, run_mode, ExtractStart, ExtractEnd, S3LoadStart, S3LoadEnd, RedShiftLoadStart, RedShiftLoadEnd, job_status, subsidiary_id FROM job_log;";
             
             String query = "select message_id, runid, message_desc, target_table, message_stage, message_type, message_timestamp, subsidiary_id from message_log a"
