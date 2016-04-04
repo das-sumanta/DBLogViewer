@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <title>:::DBLog Viewer:::</title>
     <link href="css/style.css" media="screen" rel="stylesheet" type="text/css"/>
+    
     <link href="css/jquery-ui.css" media="screen"  rel="stylesheet" type="text/css"/>
     <link href="css/dataTables.jqueryui.min.css" media="screen"  rel="stylesheet" type="text/css"/>
-    <script  src="js/jquery-1.12.2.min.js" integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk=" crossorigin="anonymous"></script>
-    <script  src="js/jquery-ui.min.js"   integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="   crossorigin="anonymous"></script>
+    <script  src="js/jquery-1.12.2.min.js"></script>
+    <script  src="js/jquery-ui.min.js"></script>
     <script  src="js/jquery.dataTables.min.js"></script>
     <script  src="js/dataTables.jqueryui.min.js"></script>
+    
     <!-- 
     <link href="https://code.jquery.com/ui/1.11.4/themes/pepper-grinder/jquery-ui.css" media="screen"  rel="stylesheet" type="text/css"/>
     <link href="https://cdn.datatables.net/1.10.11/css/dataTables.jqueryui.min.css" media="screen"  rel="stylesheet" type="text/css"/>
@@ -20,7 +22,7 @@
     <script>
       
     function validate() {
-    	var runid = 0;
+    	var runid = "";
     	var etldate = "";
     	var entity = "";
     	
@@ -45,11 +47,12 @@
     		alert("Either RunID or Date is requird !!");
     		
     	} else {
-    		//alert("http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrive?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity);
+    		alert("http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity);
     		$("#datatable").removeClass("hidden");
         	$( "#tabs" ).tabs();
-    	    $('#example').DataTable({
-    	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrive?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity,
+    	    $('#table1').DataTable({
+    	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity,
+    	    	//"ajax" : "retrivemsglog.txt",
     	    	"columns" : [
     				{ "data": "JobId" },
     				{ "data": "RunId" },
@@ -65,20 +68,27 @@
     				{ "data": "Subsidiary ID" }],
     	    	"scrollY":        "400px",
     	    	"scrollX":        "1000px"
-            	//"scrollCollapse": true
-    	    	//"paging":         false
-    	    	
-            
-    	    
+ 
     	    });
-    		}
+    	    $('#table2').DataTable({
+    	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivemsglog?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity,
+    	    		"columns" : [
+    	    	    				{ "data": "MessageId" },
+    	    	    				{ "data": "RunId" },
+    	    	    				{ "data": "Message Desc" },
+    	    	    				{ "data": "Target Table" },
+    	    	    				{ "data": "Message Stage" },
+    	    	    				{ "data": "Message Type" },
+    	    	    				{ "data": "Message TimeStamp" },
+    	    	    				{ "data": "Subsidiary ID" }],
+    	    	    	    	"scrollY":        "400px",
+    	    	    	    	"scrollX":        "1000px"
+    	    });   		
+    	    }
     	
     }
 	  
-	 
 
-	  
-	  
     </script>
 </head>
 <body>
@@ -96,31 +106,14 @@
 		  <option value="amortization_fact">Amortization Fact</option>
 		</select></td>
 <td>Date</td>
-<td><input type="date (yyyy-mm-dd)" name="txtdate" id="etldate" class="sizenew"/></td>
+<td><input type="date" name="txtdate" id="etldate" class="sizenew"/></td>
 <td><input type="button" id="button1" value="Submit" class="size" onclick="validate();"/></td>
 </tr>
 </table>
 
 </form>
 </div>
-<!-- <form class="form-container">
-	<div class="form-title"><h2>DBLog Viewer</h2></div>
-	<div class="form-title">RunID</div>
-	<input class="form-field" type="text" name="txtrunid" /><br />
-	<div class="form-title">Date</div>
-	<input class="form-field" type="datetime-local" name="txtdate" /><br />
-	<div class="form-title">Entity</div>
-		<select name="optentity" class="form-field">
-		  <option value="">Select Entity</option>
-		  <option value="accounting_period">Accounting Period</option>
-		  <option value="accounts">Accounts</option>
-		  <option value="amortization_fact">Amortization Fact</option>
-		</select>
-	<br />
-	<div class="submit-container">
-		<input class="submit-button" type="submit" value="Submit" />
-	</div>
-</form> -->
+
 <div class="hidden" id="datatable">
 
 <div id="tabs">
@@ -130,7 +123,7 @@
    <!--  <li><a href="#tabs-3"></a></li> -->
   </ul>
   <div id="tabs-1" >
-    <table id="example" class="display"  width="100%">
+    <table id="table1" class="display"  width="100%">
         <thead>
             <tr>
                 <th>JobId</th>
@@ -167,7 +160,7 @@
     </table>
   </div>
   <div id="tabs-2">
-    <table id="example2" class="display" cellspacing="0" width="100%">
+    <table id="table2" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>MessageID</th>
