@@ -4,13 +4,17 @@
     <meta charset="utf-8">
     <title>:::DBLog Viewer:::</title>
     <link href="css/style.css" media="screen" rel="stylesheet" type="text/css"/>
-    
+    <link href="css/dataTable.bootstrap.min.css" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="css/bootstrap.min.css" media="screen"  rel="stylesheet" type="text/css"/>
     <link href="css/jquery-ui.css" media="screen"  rel="stylesheet" type="text/css"/>
     <link href="css/dataTables.jqueryui.min.css" media="screen"  rel="stylesheet" type="text/css"/>
     <script  src="js/jquery-1.12.2.min.js"></script>
     <script  src="js/jquery-ui.min.js"></script>
     <script  src="js/jquery.dataTables.min.js"></script>
     <script  src="js/dataTables.jqueryui.min.js"></script>
+    <script  src="js/bootstrap.min.js"></script>
+    <script src="https://github.com/DataTables/Plugins/blob/master/api/fnReloadAjax.js"></script>
+    
     
     <!-- 
     <link href="https://code.jquery.com/ui/1.11.4/themes/pepper-grinder/jquery-ui.css" media="screen"  rel="stylesheet" type="text/css"/>
@@ -19,12 +23,18 @@
     <script  src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"   integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="   crossorigin="anonymous"></script>
     <script  src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
     <script  src="https://cdn.datatables.net/1.10.11/js/dataTables.jqueryui.min.js"></script> -->
+    
     <script>
-      
+    
+    var table1=null;
+	var table2=null;
+	var count=0;
+    
     function validate() {
     	var runid = "";
     	var etldate = "";
-    	var entity = "";
+    	var tabs = "";
+    	
     	
     	
     	if($("#runid").val() != "")
@@ -37,9 +47,10 @@
     			etldate = $("#etldate").val();
     		}
     	
-    	if ($("#entity").val() != "")
+    	if ($("#tables").val() != "")
 		{
-    		entity = $("#entity").val();
+    		tabs = $("#tables").val();
+    		//alert(entity);
 		}
     	
     	if(!runid && !etldate) {
@@ -47,11 +58,59 @@
     		alert("Either RunID or Date is requird !!");
     		
     	} else {
-    		alert("http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity);
+    		//alert("http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity);
     		$("#datatable").removeClass("hidden");
         	$( "#tabs" ).tabs();
-    	    $('#table1').DataTable({
-    	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity,
+        	
+        if (count==0)
+        	{
+        			table1 = $('#table1').DataTable({
+        	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&tabs=" + tabs,
+        	    	//"ajax" : "retrivemsglog.txt",
+        	    	"columns" : [
+        				{ "data": "JobId" },
+        				{ "data": "RunId" },
+        				{ "data": "Entity" },
+        				{ "data": "Run Mode" },
+        				{ "data": "ExtractStartTime" },
+        				{ "data": "ExtractEndTime" },
+        				{ "data": "S3LoadStartTime" },
+        				{ "data": "S3LoadEndTime" },
+        				{ "data": "RedShiftLoadStart" },
+        				{ "data": "RedShiftLoadEnd" },
+        				{ "data": "Job Status" },
+        				{ "data": "Subsidiary ID" }],
+        	    	"scrollY":        "auto",
+        	    	"scrollX":        "1000px",
+        	    		 
+        	      	    });
+        
+        	table2 = $('#table2').DataTable({
+    		     	//"ajax" : "json.txt",
+    				"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivemsglog?runid=" + runid + "&&etl_date=" + etldate + "&&tabs=" + tabs,
+    	    		"columns" : [
+    	    	    				{ "data": "MessageId" },
+    	    	    				{ "data": "RunId" },
+    	    	    				{ "data": "Message Desc" },
+    	    	    				{ "data": "Target Table" },
+    	    	    				{ "data": "Message Stage" },
+    	    	    				{ "data": "Message Type" },
+    	    	    				{ "data": "Message TimeStamp" },
+    	    	    				{ "data": "Subsidiary ID" }],
+    	    	    	    	"scrollY":        "auto",
+    	    	    	    	"scrollX":        "1000px",
+    	    	    	    		
+    	    });  
+        	count++;
+        	
+        	
+        }
+        else
+        {
+        	table1.destroy();
+        	table2.destroy();
+        	table1 = $('#table1').DataTable({
+    	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&tabs=" + tabs,
     	    	//"ajax" : "retrivemsglog.txt",
     	    	"columns" : [
     				{ "data": "JobId" },
@@ -66,52 +125,152 @@
     				{ "data": "RedShiftLoadEnd" },
     				{ "data": "Job Status" },
     				{ "data": "Subsidiary ID" }],
-    	    	"scrollY":        "400px",
-    	    	"scrollX":        "1000px"
- 
-    	    });
-    	    $('#table2').DataTable({
-    	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivemsglog?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity,
-    	    		"columns" : [
-    	    	    				{ "data": "MessageId" },
-    	    	    				{ "data": "RunId" },
-    	    	    				{ "data": "Message Desc" },
-    	    	    				{ "data": "Target Table" },
-    	    	    				{ "data": "Message Stage" },
-    	    	    				{ "data": "Message Type" },
-    	    	    				{ "data": "Message TimeStamp" },
-    	    	    				{ "data": "Subsidiary ID" }],
-    	    	    	    	"scrollY":        "400px",
-    	    	    	    	"scrollX":        "1000px"
-    	    });   		
-    	    }
-    	
+    	    	"scrollY":        "auto",
+    	    	"scrollX":        "1000px",
+    	    		 
+    	      	    });
+        	table2 = $('#table2').DataTable({
+		     	//"ajax" : "json.txt",
+				"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivemsglog?runid=" + runid + "&&etl_date=" + etldate + "&&tabs=" + tabs,
+	    		"columns" : [
+	    	    				{ "data": "MessageId" },
+	    	    				{ "data": "RunId" },
+	    	    				{ "data": "Message Desc" },
+	    	    				{ "data": "Target Table" },
+	    	    				{ "data": "Message Stage" },
+	    	    				{ "data": "Message Type" },
+	    	    				{ "data": "Message TimeStamp" },
+	    	    				{ "data": "Subsidiary ID" }],
+	    	    	    	"scrollY":        "auto",
+	    	    	    	"scrollX":        "1000px",
+	    	    	    		
+	    });  
+        	
+        }
+    	}
     }
-	  
+    
 
+    
+    $(document).click(function(event) {
+        var event = $(event.target);
+        if(event[0].id=="ui-id-2"){
+        	$('#thOne').click();
+        	 
+        }
+    });
+    
+   
+   
+    
+    /*$(document).click(function(event) {
+        var event = $(event.target);
+        if(event[0].id=="ui-id-1"){
+        	
+        $(".dataTables_scrollBody td:nth-child(11)").each(function () {
+            if (($(this).text()).trim() == 'Error') {
+                $(this).parent("tr").css("color", "red");
+            }
+            
+            else if(($(this).text()).trim() == 'In-Progress') {
+                $(this).parent("tr").css("color", "#004de6");
+            }
+            
+            else{
+                $(this).parent("tr").css("color", "green");
+            }
+        });
+        }
+        
+    });
+    
+    
+    $(document).click(function(event) {
+        var event = $(event.target);
+        if(event[0].id=="ui-id-1"){
+        if(event[0].id=="table1_paginate"){
+        	
+        	
+        $(".dataTables_scrollBody td:nth-child(11)").each(function () {
+            if (($(this).text()).trim() == 'Error') {
+                $(this).parent("tr").css("color", "red");
+            }
+            
+            else if(($(this).text()).trim() == 'In-Progress') {
+                $(this).parent("tr").css("color", "#004de6");
+            }
+            
+            else{
+                $(this).parent("tr").css("color", "green");
+            }
+        });
+        }
+        }
+    });
+    
+    
+    
+    
+   
+    $(document).click(function(event) {
+        var event = $(event.target);
+        if(event[0].id=="ui-id-2"){
+        $(".dataTables_scrollBody td:nth-child(6)").each(function () {
+            if (($(this).text()).trim() == 'error') {
+                $(this).parent("tr").css("color", "red");
+            }
+        });
+        }
+    });
+*/
     </script>
+    
 </head>
 <body>
 <div style="background-color:#92795c; color:white; padding:10px; border-radius:5px; font-family:Arial, Helvetica, sans-serif; position:relative; width:auto;" >
-<form name="frm1" action="" method="post">
+
 <table border="0" width="100%">
 <tr>
 <td>RunID</td>
 <td><input type="text" name="txtrunid" id="runid" class="size"/></td>
 <td>Entity</td>
-<td><select name="entity" id="entity" class="sizenew">
+<td><select name="tables" id="tables" class="sizenew">
 		  <option value="">Select Entity</option>
 		  <option value="accounting_period">Accounting Period</option>
 		  <option value="accounts">Accounts</option>
-		  <option value="amortization_fact">Amortization Fact</option>
+		   <option value="amortization_fact">Amortization Fact</option>
+		  <option value="book_fairs">Book Fairs</option>
+		  <option value="carrier">Carrier</option>
+		  <option value="classes">Classes</option>
+		  <option value="cost_center">Cost Center</option>
+		  <option value="currencies">Currencies</option>
+		  <option value="customers">Customers</option>
+		  <option value="employees">Employees</option>
+		  <option value="freight_estimate">Freight Estimate</option>
+		  <option value="items">Items</option>
+		  <option value="locations">Locations</option>
+		   <option value="opportunity_fact">Opportunity Fact</option>
+		    <option value="po_fact">Po Fact</option>
+		  <option value="payment_terms">Payment Terms</option>
+		  <option value="product_catalouge">Product Catalouge</option>
+		    <option value="revenue_fact">Revenue Fact</option>
+		  <option value="subsidiaries">Subsidiaries </option>
+		  <option value="tax_items">Tax Items</option>
+		  <option value="transaction_type">Transaction Type</option>
+		  <option value="transaction_status">Transaction Status</option>
+		  <option value="territories">Territories</option>
+		  <option value="vendors">vendors</option>
+		  <option value="vb_fact">Vb Fact</option>
+		  
 		</select></td>
 <td>Date</td>
 <td><input type="date" name="txtdate" id="etldate" class="sizenew"/></td>
 <td><input type="button" id="button1" value="Submit" class="size" onclick="validate();"/></td>
+
 </tr>
 </table>
 
-</form>
+
 </div>
 
 <div class="hidden" id="datatable">
@@ -119,15 +278,15 @@
 <div id="tabs">
   <ul>
     <li style="font-size:15px; font-family:Arial, Helvetica, sans-serif;"><a href="#tabs-1">Job Log</a></li>
-    <li style="font-size:15px; font-family:Arial, Helvetica, sans-serif;"><a href="#tabs-2">Message Log</a></li>
-   <!--  <li><a href="#tabs-3"></a></li> -->
+    <li  style="font-size:15px; font-family:Arial, Helvetica, sans-serif;"><a href="#tabs-2">Message Log</a></li>
+   
   </ul>
   <div id="tabs-1" >
-    <table id="table1" class="display"  width="100%">
+     <table id="table1" class="table table-bordered display compact"  style="width:100%">
         <thead>
             <tr>
                 <th>JobId</th>
-                <th>RunId</th>
+                <th id="th2">RunId</th>
                 <th>Entity</th>
                 <th>Run Mode</th>
                 <th>ExtractStartTime</th>
@@ -158,14 +317,17 @@
         </tfoot>
         
     </table>
+    
+    
+    
   </div>
   <div id="tabs-2">
-    <table id="table2" class="display" cellspacing="0" width="100%">
-        <thead>
+   <table id="table2" class="table table-bordered display compact" style="width:100%">
+         <thead>
             <tr>
                 <th>MessageID</th>
-                <th>RunID</th>
-                <th>Message Desc</th>
+                <th id="thOne">RunID</th>
+                 <th>Message Desc</th>
                 <th>Target Table</th>
                 <th>Message Stage</th>
                 <th>Message Type</th>
@@ -185,7 +347,10 @@
                 <th>Subsidiary ID</th>
             </tr>
         </tfoot>
+        
+ 
     </table>
+  
   </div>
 </div>
 </div>
