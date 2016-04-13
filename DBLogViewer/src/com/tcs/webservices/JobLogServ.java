@@ -61,10 +61,11 @@ public class JobLogServ {
             		+ "and a.entity = coalesce(?,a.entity)";
             
             st = con.prepareStatement(query);
+            
             st.setString(1, (runID != null && runID.length() != 0  ? runID:null));
             st.setString(2, (etlDate != null && etlDate.length() != 0  ? etlDate:null));
             st.setString(3,(tabs != null && tabs.length() != 0 ? tabs:null));
-            
+            System.out.println(st.toString());
             rs = st.executeQuery();
             strHeader = "{"
             		+ "\"data\": [";
@@ -113,6 +114,8 @@ public class JobLogServ {
 	            strData = strData + "] }";
 	            finalStr = strHeader + strData;
 	            finalStr = finalStr.replaceAll("null", "-");
+	            finalStr = finalStr.replaceAll("(\\r|\\n|\\r\\n)+", "");
+	            finalStr = finalStr.replaceAll("\\\\", "\\\\\\\\");
             } else {
             	finalStr = "No Data Present";
             }
@@ -175,7 +178,7 @@ public class JobLogServ {
             st.setString(1, (runID != null && runID.length() != 0  ? runID:null));
             st.setString(2, (etlDate != null && etlDate.length() != 0 ? etlDate:null));
             st.setString(3,(tables != null && tables.length() != 0 ? tables:null));
-            
+            //System.out.println(st.toString());
             rs = st.executeQuery();
             strHeader = "{"
             		+ "\"data\": [";
@@ -189,7 +192,7 @@ public class JobLogServ {
 	            		strData	= strData	+ "{ "
 	            				+ "\"MessageId\":" + rs.getInt("message_id") + ","
 	            				+ "\"RunId\":" + rs.getInt("runid") + ","
-			            		+ "\"Message Desc\": \"" + rs.getString("message_desc") + "\","
+			            		+ "\"Message Desc\": \"" + rs.getString("message_desc").replaceAll("\"","") + "\","
 			            		+ "\"Target Table\": \"" + rs.getString("target_table") + "\","
 			            		+ "\"Message Stage\": \"" + rs.getString("message_stage") + "\","
 			            		+ "\"Message Type\": \"" + rs.getString("message_type") + "\","
@@ -201,7 +204,7 @@ public class JobLogServ {
 	            				+  "{ "
 	            				+ "\"MessageId\":" + rs.getInt("message_id") + ","
 	            				+ "\"RunId\":" + rs.getInt("runid") + ","
-			            		+ "\"Message Desc\": \"" + rs.getString("message_desc") + "\","
+			            		+ "\"Message Desc\": \"" + rs.getString("message_desc").replaceAll("\"","") + "\","
 			            		+ "\"Target Table\": \"" + rs.getString("target_table") + "\","
 			            		+ "\"Message Stage\": \"" + rs.getString("message_stage") + "\","
 			            		+ "\"Message Type\": \"" + rs.getString("message_type") + "\","
@@ -218,6 +221,7 @@ public class JobLogServ {
 	            finalStr = strHeader + strData;
 	            finalStr = finalStr.replaceAll("(\\r|\\n|\\r\\n)+", "");
 	            finalStr = finalStr.replaceAll("null", "-");
+	            finalStr = finalStr.replaceAll("\\\\", "\\\\\\\\");
             } else {
             	finalStr = "No Data Present";
             }

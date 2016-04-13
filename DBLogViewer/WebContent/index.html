@@ -13,7 +13,7 @@
     <script  src="js/jquery.dataTables.min.js"></script>
     <script  src="js/dataTables.jqueryui.min.js"></script>
     <script  src="js/bootstrap.min.js"></script>
-    <script src="https://github.com/DataTables/Plugins/blob/master/api/fnReloadAjax.js"></script>
+    
     
     
     <!-- 
@@ -64,7 +64,7 @@
         	
         if (count==0)
         	{
-        			table1 = $('#table1').DataTable({
+        			table1 = $('#JobLog').DataTable({
         	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&tabs=" + tabs,
         	    	//"ajax" : "retrivemsglog.txt",
         	    	"columns" : [
@@ -85,7 +85,7 @@
         	    		 
         	      	    });
         
-        	table2 = $('#table2').DataTable({
+        	table2 = $('#MessageLog').DataTable({
     		     	//"ajax" : "json.txt",
     				"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivemsglog?runid=" + runid + "&&etl_date=" + etldate + "&&tabs=" + tabs,
     	    		"columns" : [
@@ -109,7 +109,7 @@
         {
         	table1.destroy();
         	table2.destroy();
-        	table1 = $('#table1').DataTable({
+        	table1 = $('#JobLog').DataTable({
     	    	"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&tabs=" + tabs,
     	    	//"ajax" : "retrivemsglog.txt",
     	    	"columns" : [
@@ -129,7 +129,7 @@
     	    	"scrollX":        "1000px",
     	    		 
     	      	    });
-        	table2 = $('#table2').DataTable({
+        	table2 = $('#MessageLog').DataTable({
 		     	//"ajax" : "json.txt",
 				"ajax" : "http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivemsglog?runid=" + runid + "&&etl_date=" + etldate + "&&tabs=" + tabs,
 	    		"columns" : [
@@ -160,6 +160,13 @@
         }
     });
     
+    $(document).click(function(event) {
+        var event = $(event.target);
+        if(event[0].id=="ui-id-1"){
+        	$('#th2').click();
+        	 
+        }
+    });
    
    
     
@@ -282,7 +289,7 @@
    
   </ul>
   <div id="tabs-1" >
-     <table id="table1" class="table table-bordered display compact"  style="width:100%">
+     <table id="JobLog" class="table table-bordered display compact"  style="width:100%">
         <thead>
             <tr>
                 <th>JobId</th>
@@ -322,7 +329,7 @@
     
   </div>
   <div id="tabs-2">
-   <table id="table2" class="table table-bordered display compact" style="width:100%">
+   <table id="MessageLog" class="table table-bordered display compact" style="width:100%">
          <thead>
             <tr>
                 <th>MessageID</th>
