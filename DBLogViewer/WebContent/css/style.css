@@ -137,3 +137,31 @@ body {
    .hidden{
    display: none;
    }
+   .tabhidden{
+   display:none;
+   }
+   .tabpohidden{
+   display:none;
+   }
+    .tabsohidden{
+   display:none;
+   }
+   .tabrevenuehidden{
+   display:none;
+   }
+   .tabamortizationhidden{
+   display:none;
+   }
+   
+   .tabvbhidden{
+   display:none;
+   }
+   
+   .tabophidden{
+   display:none;
+   }
+   
+    .tabbudgetforecasthidden{
+   display:none;
+   }
+   

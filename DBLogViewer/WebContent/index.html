@@ -53,15 +53,89 @@
     		//alert(entity);
 		}
     	
-    	if(!runid && !etldate) {
+    	if(!runid && !etldate && !tabs) {
     		
-    		alert("Either RunID or Date is requird !!");
+    		alert("Either RunID,Entity or Date is required !!");
     		
-    	} else {
+    	} 
+    	else {
     		//alert("http://" + location.hostname +":8080/DBLogViewer/rest/joblog/retrivejoblog?runid=" + runid + "&&etl_date=" + etldate + "&&enitity=" + entity);
     		$("#datatable").removeClass("hidden");
         	$( "#tabs" ).tabs();
-        	
+        switch (tabs) { 
+        	case 'revenue_fact': 
+        		$("#tabs-3").removeClass("tabhidden");
+        		$("#revenuefactlog").removeClass("tabrevenuehidden");
+        		$("#pofactlog").addClass("tabpohidden");
+        		$("#sofactlog").addClass("tabsohidden");
+        		$("#vbfactlog").addClass("tabvbhidden");
+        		$("#opfactlog").addClass("tabophidden");
+        		$("#amortizationfactlog").addClass("tabamortizationhidden");
+        		$("#budgetforecastfactlog").addClass("tabbudgetforecasthidden");
+        		break;
+        	case 'po_fact': 
+        		$("#tabs-3").removeClass("tabhidden");
+        		$("#pofactlog").removeClass("tabpohidden");
+        		$("#revenuefactlog").addClass("tabrevenuehidden");
+        		$("#sofactlog").addClass("tabsohidden");
+        		$("#vbfactlog").addClass("tabvbhidden");
+        		$("#opfactlog").addClass("tabophidden");
+        		$("#amortizationfactlog").addClass("tabamortizationhidden");
+        		$("#budgetforecastfactlog").addClass("tabbudgetforecasthidden");
+        		break;
+        	case 'so_fact': 
+        		$("#tabs-3").removeClass("tabhidden");
+        		$("#sofactlog").removeClass("tabsohidden");
+        		$("#revenuefactlog").addClass("tabrevenuehidden");
+        		$("#pofactlog").addClass("tabpohidden");
+        		$("#vbfactlog").addClass("tabvbhidden");
+        		$("#opfactlog").addClass("tabophidden");
+        		$("#amortizationfactlog").addClass("tabamortizationhidden");
+        		$("#budgetforecastfactlog").addClass("tabbudgetforecasthidden");
+        		break;
+        	case 'amortization_fact': 
+        		$("#tabs-3").removeClass("tabhidden");
+        		$("#amortizationfactlog").removeClass("tabamortizationhidden");
+        		$("#sofactlog").addClass("tabsohidden");
+        		$("#revenuefactlog").addClass("tabrevenuehidden");
+        		$("#pofactlog").addClass("tabpohidden");
+        		$("#vbfactlog").addClass("tabvbhidden");
+        		$("#opfactlog").addClass("tabophidden");
+        		$("#budgetforecastfactlog").addClass("tabbudgetforecasthidden");
+        		break;
+        	case 'vb_fact': 
+        		$("#tabs-3").removeClass("tabhidden");
+        		$("#vbfactlog").removeClass("tabvbhidden");
+        		$("#sofactlog").addClass("tabsohidden");
+        		$("#revenuefactlog").addClass("tabrevenuehidden");
+        		$("#pofactlog").addClass("tabpohidden");
+        		$("#opfactlog").addClass("tabophidden");
+        		$("#budgetforecastfactlog").addClass("tabbudgetforecasthidden");
+        		$("#amortizationfactlog").addClass("tabamortizationhidden");
+        		break;
+        	case 'opportunity_fact': 
+        		$("#tabs-3").removeClass("tabhidden");
+        		$("#opfactlog").removeClass("tabophidden");
+        		$("#sofactlog").addClass("tabsohidden");
+        		$("#revenuefactlog").addClass("tabrevenuehidden");
+        		$("#pofactlog").addClass("tabpohidden");
+        		$("#vbfactlog").addClass("tabvbhidden");
+        		$("#amortizationfactlog").addClass("tabamortizationhidden");
+        		$("#budgetforecastfactlog").addClass("tabbudgetforecasthidden");
+        		break;
+        	case 'budgetforecast_fact': 
+        		$("#tabs-3").removeClass("tabhidden");
+        		$("#budgetforecastfactlog").removeClass("tabbudgetforecasthidden");
+        		$("#sofactlog").addClass("tabsohidden");
+        		$("#revenuefactlog").addClass("tabrevenuehidden");
+        		$("#pofactlog").addClass("tabpohidden");
+        		$("#vbfactlog").addClass("tabvbhidden");
+        		$("#opfactlog").addClass("tabophidden");
+        		$("#amortizationfactlog").addClass("tabamortizationhidden");
+        		break;
+        		
+        		
+        	}
         if (count==0)
         	{
         			table1 = $('#JobLog').DataTable({
@@ -245,8 +319,9 @@
 		  <option value="">Select Entity</option>
 		  <option value="accounting_period">Accounting Period</option>
 		  <option value="accounts">Accounts</option>
-		   <option value="amortization_fact">Amortization Fact</option>
+		  <option value="amortization_fact">Amortization Fact</option>
 		  <option value="book_fairs">Book Fairs</option>
+		  <option value="budgetforecast_fact">Budgetforecast Fact</option>
 		  <option value="carrier">Carrier</option>
 		  <option value="classes">Classes</option>
 		  <option value="cost_center">Cost Center</option>
@@ -262,6 +337,7 @@
 		  <option value="product_catalouge">Product Catalouge</option>
 		    <option value="revenue_fact">Revenue Fact</option>
 		  <option value="subsidiaries">Subsidiaries </option>
+		  <option value="so_fact">Sales Order Fact </option>
 		  <option value="tax_items">Tax Items</option>
 		  <option value="transaction_type">Transaction Type</option>
 		  <option value="transaction_status">Transaction Status</option>
@@ -286,14 +362,14 @@
   <ul>
     <li style="font-size:15px; font-family:Arial, Helvetica, sans-serif;"><a href="#tabs-1">Job Log</a></li>
     <li  style="font-size:15px; font-family:Arial, Helvetica, sans-serif;"><a href="#tabs-2">Message Log</a></li>
-   
+   <li  style="font-size:15px; font-family:Arial, Helvetica, sans-serif;"><a href="#tabs-3">Error Log</a></li>
   </ul>
   <div id="tabs-1" >
      <table id="JobLog" class="table table-bordered display compact"  style="width:100%">
         <thead>
             <tr>
-                <th>JobId</th>
-                <th id="th2">RunId</th>
+                <th>JobID</th>
+                <th id="th2">RunID</th>
                 <th>Entity</th>
                 <th>Run Mode</th>
                 <th>ExtractStartTime</th>
@@ -308,8 +384,8 @@
         </thead>
         <tfoot>
             <tr>
-                <th>JobId</th>
-                <th>RunId</th>
+                <th>JobID</th>
+                <th>RunID</th>
                 <th>Entity</th>
                 <th>Run Mode</th>
                 <th>ExtractStartTime</th>
@@ -359,8 +435,1132 @@
     </table>
   
   </div>
+  
+  <div id="tabs-3" class="tabhidden">
+  
+  <table id="opfactlog" class="table table-bordered display compact tabophidden" style="width:100%">
+         <thead>
+            <tr>
+            <th>RUNID</th>
+            <th>OPPORTUNITY_ERROR_KEY</th>
+            <th>DOCUMENT_NUMBER</th>
+            <th>TRANSACTION_NUMBER</th>
+            <th>TRANSACTION_ID</th>
+            <th>ACCOUNTING_PERIOD_KEY</th>
+            <th>ACCOUNTING_PERIOD_ID_ERROR</th>
+            <th>TERRITORY_KEY</th>
+            <th>TERRITORY_ID_ERROR</th>
+            <th>BOOK_FAIRS_CONSULTANT_KEY</th>
+            <th>BOOK_FAIRS_CONSULTANT_ID</th>
+            <th>BOOK_FAIRS_CONSULTANT_ID_ERROR</th>
+            <th>SALES_REP_KEY</th>
+            <th>SALES_REP_ID_ERROR</th>
+            <th>BOOK_FAIRS_KEY</th>
+            <th>BOOK_FAIRS_ID_ERROR</th>
+            <th>BILL_ADDRESS_LINE_1</th>
+            <th>BILL_ADDRESS_LINE_2</th>
+            <th>BILL_ADDRESS_LINE_3</th>
+            <th>BILL_CITY</th>
+            <th>BILL_COUNTRY</th>
+            <th>BILL_STATE</th>
+            <th>BILL_ZIP</th>
+            <th>SHIP_ADDRESS_LINE_1</th>
+            <th>SHIP_ADDRESS_LINE_2</th>
+            <th>SHIP_ADDRESS_LINE_3</th>
+            <th>SHIP_CITY</th>
+            <th>SHIP_COUNTRY</th>
+            <th>SHIP_STATE</th>
+            <th>SHIP_ZIP</th>
+            <th>OPPORTUNITY_STATUS_KEY</th>
+            <th>OPPORTUNITY_STATUS_ID_ERROR</th>
+            <th>OPPORTUNITY_TYPE_KEY</th>
+            <th>OPPORTUNITY_TYPE_ID_ERROR</th>
+            <th>FORECAST_TYPE</th>
+            <th>CURRENCY_KEY</th>
+            <th>CURRENCY_ID_ERROR</th>
+            <th>TRANSACTION_DATE_KEY</th>
+            <th>TRANSACTION_DATE_ERROR</th>
+            <th>OPEN_DATE_KEY</th>
+            <th>OPEN_DATE_ERROR</th>
+            <th>SHIP_DATE_KEY</th>
+            <th>SHIP_DATE_ERROR</th>
+            <th>CLOSE_DATE_KEY</th>
+            <th>CLOSE_DATE_ERROR</th>
+            <th>RETURN_DATE_KEY</th>
+            <th>RETURN_DATE_ERROR</th>
+            <th>EXCHANGE_RATE</th>
+            <th>ROLL_SIZE</th>
+            <th>PROJECTED_TOTAL</th>
+            <th>WEIGHTED_TOTAL</th>
+            <th>AMOUNT</th>
+            <th>LOCATION_KEY</th>
+            <th>LOCATION_ID_ERROR</th>
+            <th>CLASS_KEY</th>
+            <th>CLASS_ID_ERROR</th>
+            <th>SUBSIDIARY_KEY</th>
+            <th>SUBSIDIARY_ID_ERROR</th>
+            <th>CUSTOMER_KEY</th>
+            <th>CUSTOMER_ID_ERROR</th>
+            <th>LAST_MODIFIED_DATE</th>
+            <th>SALES_REP_ID</th>
+            <th>TERRITORY_ID</th>
+            <th>OPEN_DATE</th>
+            <th>SHIP_DATE</th>
+            <th>CLOSE_DATE</th>
+            <th>RETURN_DATE</th>
+            <th>ACCOUNTING_PERIOD_ID</th>
+            <th>ABCDO_MARKER_ID</th>
+            <th>BOOK_FAIRS_STATUS_ID</th>
+            <th>BOOK_FAIR_TYPE_ID</th>
+            <th>TRUCK_ROUTE_ID</th>
+            <th>STATUS</th>
+            <th>CUSTOM_FORM_ID</th>
+            <th>CURRENCY_ID</th>
+            <th>TRANDATE</th>
+            <th>LOCATION_ID</th>
+            <th>CUSTOMER_ID</th>
+            <th>CLASS_ID</th>
+            <th>SUBSIDIARY_ID</th>
+            <th>INVOICE_OPTION_ID</th>
+            <th>RECORD_STATUS</th>
+            <th>DW_CREATION_DATE</th>
+           </tr>
+           </thead>
+        <tfoot>
+        	<tr>
+            <th>RUNID</th>
+            <th>OPPORTUNITY_ERROR_KEY</th>
+            <th>DOCUMENT_NUMBER</th>
+            <th>TRANSACTION_NUMBER</th>
+            <th>TRANSACTION_ID</th>
+            <th>ACCOUNTING_PERIOD_KEY</th>
+            <th>ACCOUNTING_PERIOD_ID_ERROR</th>
+            <th>TERRITORY_KEY</th>
+            <th>TERRITORY_ID_ERROR</th>
+            <th>BOOK_FAIRS_CONSULTANT_KEY</th>
+            <th>BOOK_FAIRS_CONSULTANT_ID</th>
+            <th>BOOK_FAIRS_CONSULTANT_ID_ERROR</th>
+            <th>SALES_REP_KEY</th>
+            <th>SALES_REP_ID_ERROR</th>
+            <th>BOOK_FAIRS_KEY</th>
+            <th>BOOK_FAIRS_ID_ERROR</th>
+            <th>BILL_ADDRESS_LINE_1</th>
+            <th>BILL_ADDRESS_LINE_2</th>
+            <th>BILL_ADDRESS_LINE_3</th>
+            <th>BILL_CITY</th>
+            <th>BILL_COUNTRY</th>
+            <th>BILL_STATE</th>
+            <th>BILL_ZIP</th>
+            <th>SHIP_ADDRESS_LINE_1</th>
+            <th>SHIP_ADDRESS_LINE_2</th>
+            <th>SHIP_ADDRESS_LINE_3</th>
+            <th>SHIP_CITY</th>
+            <th>SHIP_COUNTRY</th>
+            <th>SHIP_STATE</th>
+            <th>SHIP_ZIP</th>
+            <th>OPPORTUNITY_STATUS_KEY</th>
+            <th>OPPORTUNITY_STATUS_ID_ERROR</th>
+            <th>OPPORTUNITY_TYPE_KEY</th>
+            <th>OPPORTUNITY_TYPE_ID_ERROR</th>
+            <th>FORECAST_TYPE</th>
+            <th>CURRENCY_KEY</th>
+            <th>CURRENCY_ID_ERROR</th>
+            <th>TRANSACTION_DATE_KEY</th>
+            <th>TRANSACTION_DATE_ERROR</th>
+            <th>OPEN_DATE_KEY</th>
+            <th>OPEN_DATE_ERROR</th>
+            <th>SHIP_DATE_KEY</th>
+            <th>SHIP_DATE_ERROR</th>
+            <th>CLOSE_DATE_KEY</th>
+            <th>CLOSE_DATE_ERROR</th>
+            <th>RETURN_DATE_KEY</th>
+            <th>RETURN_DATE_ERROR</th>
+            <th>EXCHANGE_RATE</th>
+            <th>ROLL_SIZE</th>
+            <th>PROJECTED_TOTAL</th>
+            <th>WEIGHTED_TOTAL</th>
+            <th>AMOUNT</th>
+            <th>LOCATION_KEY</th>
+            <th>LOCATION_ID_ERROR</th>
+            <th>CLASS_KEY</th>
+            <th>CLASS_ID_ERROR</th>
+            <th>SUBSIDIARY_KEY</th>
+            <th>SUBSIDIARY_ID_ERROR</th>
+            <th>CUSTOMER_KEY</th>
+  
+           </tr>
+        </tfoot>
+        
+ 
+    </table>
+  
+  <table id="budgetforecastfactlog" class="table table-bordered display compact tabudgetforecasthidden" style="width:100%">
+         <thead>
+            <tr>
+            <th>RUNID</th>
+            <th>BUDGETFORECAST_ERROR_KEY</th>
+            <th>BUDGETFORECAST_ID</th>
+            <th>BUDGETFORECAST_NAME</th>
+            <th>FISCAL_MONTH_ID</th>
+            <th>FISCAL_WEEK_ID</th>
+            <th>CLASS_KEY</th>
+            <th>CLASS_ID</th>
+            <th>CLASS_ID_ERROR</th>
+            <th>TERRITORY_KEY</th>
+            <th>TERRITORY_ID</th>
+            <th>TERRITORY_ID_ERROR</th>
+            <th>SUBSIDIARY_KEY</th>
+            <th>SUBSIDIARY_ID</th>
+            <th>SUBSIDIARY_ID_ERROR</th>
+            <th>BUDGETFORECAST_TYPE</th>
+            <th>MONTH_END_DATE</th>
+            <th>MONTH_START_DATE</th>
+            <th>WEEK_START_DATE</th>
+            <th>WEEK_END_DATE</th>
+            <th>AMOUNT</th>
+            <th>IS_INACTIVE</th>
+            <th>CREATION_DATE</th>
+            <th>LAST_MODIFIED_DATE</th>
+            <th>RECORD_STATUS</th>
+            <th>DW_CREATION_DATE</th>
+          </tr>
+           </thead>
+        <tfoot>
+        	<tr>
+            <th>RUNID</th>
+            <th>BUDGETFORECAST_ERROR_KEY</th>
+            <th>BUDGETFORECAST_ID</th>
+            <th>BUDGETFORECAST_NAME</th>
+            <th>FISCAL_MONTH_ID</th>
+            <th>FISCAL_WEEK_ID</th>
+            <th>CLASS_KEY</th>
+            <th>CLASS_ID</th>
+            <th>CLASS_ID_ERROR</th>
+            <th>TERRITORY_KEY</th>
+            <th>TERRITORY_ID</th>
+            <th>TERRITORY_ID_ERROR</th>
+            <th>SUBSIDIARY_KEY</th>
+            <th>SUBSIDIARY_ID</th>
+            <th>SUBSIDIARY_ID_ERROR</th>
+            <th>BUDGETFORECAST_TYPE</th>
+            <th>MONTH_END_DATE</th>
+            <th>MONTH_START_DATE</th>
+            <th>WEEK_START_DATE</th>
+            <th>WEEK_END_DATE</th>
+            <th>AMOUNT</th>
+            <th>IS_INACTIVE</th>
+            <th>CREATION_DATE</th>
+            <th>LAST_MODIFIED_DATE</th>
+            <th>RECORD_STATUS</th>
+            <th>DW_CREATION_DATE</th>
+          </tr>
+           
+          
+        </tfoot>
+        
+ 
+    </table>
+  
+  
+  <table id="vbfactlog" class="table table-bordered display compact tabvbhidden" style="width:100%">
+         <thead>
+            <tr>
+            <th>RUNID</th>
+            <th>VB_ERROR_KEY</th>
+            <th>VB_NUMBER</th>
+            <th>VB_ID</th>
+            <th>VB_LINE_ID</th>
+            <th>VENDOR_KEY</th>
+            <th>SOURCE_TRANSACTION_NUMBER</th>
+            <th>SOURCE_TRANSACTION_TYPE</th>
+            <th>TERMS_KEY</th>
+            <th>DUE_DATE_KEY</th>
+            <th>CREATE_DATE_KEY</th>
+            <th>ACCOUNT_KEY</th>
+            <th>PAYMENT_HOLD</th>
+            <th>GL_POST_DATE_KEY </th>
+            <th>VENDOR_BILL_DATE_KEY</th>
+            <th>REQUESTER_KEY</th>
+            <th> APPROVER_LEVEL1_KEY</th>
+            <th>APPROVER_LEVEL2_KEY </th>
+            <th>SUBSIDIARY_KEY</th>
+            <th>LOCATION_KEY</th>
+            <th>ITEM_KEY</th>
+            <th>COST_CENTER_KEY </th>
+            <th>EXCHANGE_RATE</th>
+            <th>VENDOR_ADDRESS_LINE_1</th>
+            <th>VENDOR_ADDRESS_LINE_2</th>
+            <th>VENDOR_ADDRESS_LINE_3</th>
+            <th>VENDOR_CITY</th>
+            <th>VENDOR_COUNTRY</th>
+            <th> VENDOR_STATE</th>
+            <th>VENDOR_ZIP</th>
+            <th>STATUS</th>
+            <th>APPROVAL_STATUS </th>
+            <th>QUANTITY</th>
+            <th>ITEM_GROSS_AMOUNT</th>
+            <th>AMOUNT</th>
+            <th>AMOUNT_FOREIGN </th>
+            <th> NET_AMOUNT</th>
+            <th>NET_AMOUNT_FOREIGN </th>
+            <th>GROSS_AMOUNT</th>
+            <th>RATE</th>
+            <th>CLOSE_DATE_KEY</th>
+            <th>TAX_ITEM_KEY</th>
+            <th>TAX_AMOUNT</th>
+            <th>TAX_AMOUNT_FOREIGN</th>
+            <th>VB_TYPE</th>
+            <th>CURRENCY_KEY</th>
+            <th>CLASS_KEY</th>
+            <th>MATCH_EXCEPTION</th>
+            <th> EXCEPTION_MESSAGE</th>
+            <th>CREATION_DATE</th>
+            <th>LAST_MODIFIED_DATE</th>
+            <th>VENDOR_ID</th>
+            <th>TERMS_ID</th>
+            <th>DUE_DATE</th>
+            <th>CREATE_DATE </th>
+            <th>ACCOUNT_ID</th>
+            <th>GL_POST_DATE</th>
+            <th>VENDOR_BILL_DATE</th>
+            <th>REQUESTER_ID</th>
+            <th>APPROVER_LEVEL1_ID</th>
+            <th>APPROVER_LEVEL2_ID</th>
+            <th>SUBSIDIARY_ID</th>
+            <th>LOCATION_ID</th>
+            <th>ITEM_ID</th>
+            <th>COST_CENTER_ID</th>
+            <th>TAX_ITEM_ID</th>
+            <th>CURRENCY_ID</th>
+            <th>CLASS_ID</th>
+            <th>RECORD_STATUS</th>
+            <th>DW_CREATION_DATE</th>
+            
+            </tr>
+           </thead>
+        <tfoot>
+        	      <tr>
+            <th>RUNID</th>
+            <th>VB_ERROR_KEY</th>
+            <th>VB_NUMBER</th>
+            <th>VB_ID</th>
+            <th>VB_LINE_ID</th>
+            <th>VENDOR_KEY</th>
+            <th>SOURCE_TRANSACTION_NUMBER</th>
+            <th>SOURCE_TRANSACTION_TYPE</th>
+            <th>TERMS_KEY</th>
+            <th>DUE_DATE_KEY</th>
+            <th>CREATE_DATE_KEY</th>
+            <th>ACCOUNT_KEY</th>
+            <th>PAYMENT_HOLD</th>
+            <th>GL_POST_DATE_KEY </th>
+            <th>VENDOR_BILL_DATE_KEY</th>
+            <th>REQUESTER_KEY</th>
+            <th> APPROVER_LEVEL1_KEY</th>
+            <th>APPROVER_LEVEL2_KEY </th>
+            <th>SUBSIDIARY_KEY</th>
+            <th>LOCATION_KEY</th>
+            <th>ITEM_KEY</th>
+            <th>COST_CENTER_KEY </th>
+            <th>EXCHANGE_RATE</th>
+            <th>VENDOR_ADDRESS_LINE_1</th>
+            <th>VENDOR_ADDRESS_LINE_2</th>
+            <th>VENDOR_ADDRESS_LINE_3</th>
+            <th>VENDOR_CITY</th>
+            <th>VENDOR_COUNTRY</th>
+            <th> VENDOR_STATE</th>
+            <th>VENDOR_ZIP</th>
+            <th>STATUS</th>
+            <th>APPROVAL_STATUS </th>
+            <th>QUANTITY</th>
+            <th>ITEM_GROSS_AMOUNT</th>
+            <th>AMOUNT</th>
+            <th>AMOUNT_FOREIGN </th>
+            <th> NET_AMOUNT</th>
+            <th>NET_AMOUNT_FOREIGN </th>
+            <th>GROSS_AMOUNT</th>
+            <th>RATE</th>
+            <th>CLOSE_DATE_KEY</th>
+            <th>TAX_ITEM_KEY</th>
+            <th>TAX_AMOUNT</th>
+            <th>TAX_AMOUNT_FOREIGN</th>
+            <th>VB_TYPE</th>
+            <th>CURRENCY_KEY</th>
+            <th>CLASS_KEY</th>
+            <th>MATCH_EXCEPTION</th>
+            <th> EXCEPTION_MESSAGE</th>
+            <th>CREATION_DATE</th>
+            <th>LAST_MODIFIED_DATE</th>
+            <th>VENDOR_ID</th>
+            <th>TERMS_ID</th>
+            <th>DUE_DATE</th>
+            <th>CREATE_DATE </th>
+            <th>ACCOUNT_ID</th>
+            <th>GL_POST_DATE</th>
+            <th>VENDOR_BILL_DATE</th>
+            <th>REQUESTER_ID</th>
+            <th>APPROVER_LEVEL1_ID</th>
+            <th>APPROVER_LEVEL2_ID</th>
+            <th>SUBSIDIARY_ID</th>
+            <th>LOCATION_ID</th>
+            <th>ITEM_ID</th>
+            <th>COST_CENTER_ID</th>
+            <th>TAX_ITEM_ID</th>
+            <th>CURRENCY_ID</th>
+            <th>CLASS_ID</th>
+            <th>RECORD_STATUS</th>
+            <th>DW_CREATION_DATE</th>
+            
+            </tr>
+        </tfoot>
+        
+ 
+    </table>
+  
+  
+  <table id="amortizationfactlog" class="table table-bordered display compact tabamortizationhidden" style="width:100%">
+         <thead>
+            <tr>
+                <th>RUNID</th>
+                <th>AMORTIZATION_ERROR_KEY</th>
+                <th>AMORTIZATION_PER_ISSUELEVE_ID</th>
+                <th>AMORTIZE_VALUE_PER_ISSUE_EXCL</th>
+                <th>AMORTIZE_VALUE_PER_ISSUE_INCL</th>
+                <th>COMPONENTS_ID</th>
+                <th>COMPONENTS_KEY</th>
+                <th>COMPONENTS_ID_ERROR</th>
+                <th>DISCOUNTED_AMOUNT</th>
+                <th>DISCOUNTED_PRICE</th>
+                <th>IS_INACTIVE</th>
+                <th>LAST_SS_YYYYMM</th>
+                <th>LEVEL_ID</th>
+                <th>LEVEL</th>
+                <th>LINE_NO</th>
+                <th>NO_OF_ISSUES</th>
+                <th>NO_OF_SCHEDULED_CREATED</th>
+                <th>ORDER_TYPE_ID</th>
+                <th>ORDER_TYPE</th>
+                <th>RRP</th>
+                <th>STO_END_DATE</th>
+                <th>STO_END_DATE_KEY</th>
+                <th>STO_END_DATE_ERROR</th>
+                <th>STO_ITEM_ID</th>
+                <th>STO_ITEM_KEY</th>
+                <th>STO_ITEM_ID_ERROR</th>
+                <th>STO_NO_ID</th>
+                <th>SUBSIDIARY_ID</th>
+                <th>SUBSIDIARY_KEY</th>
+                <th>SUBSIDIARY_ID_ERROR</th>
+                <th>STO_START_DATE</th>
+                <th>STO_START_DATE_KEY</th>
+                <th>STO_START_DATE_ERROR</th>
+                <th>RECORD_STATUS</th>
+                <th>DW_CREATION_DATE</th>
+                </tr>
+           </thead>
+        <tfoot>
+        	 <tr>
+                <th>RUNID</th>
+                <th>AMORTIZATION_ERROR_KEY</th>
+                <th>AMORTIZATION_PER_ISSUELEVE_ID</th>
+                <th>AMORTIZE_VALUE_PER_ISSUE_EXCL</th>
+                <th>AMORTIZE_VALUE_PER_ISSUE_INCL</th>
+                <th>COMPONENTS_ID</th>
+                <th>COMPONENTS_KEY</th>
+                <th>COMPONENTS_ID_ERROR</th>
+                <th>DISCOUNTED_AMOUNT</th>
+                <th>DISCOUNTED_PRICE</th>
+                <th>IS_INACTIVE</th>
+                <th>LAST_SS_YYYYMM</th>
+                <th>LEVEL_ID</th>
+                <th>LEVEL</th>
+                <th>LINE_NO</th>
+                <th>NO_OF_ISSUES</th>
+                <th>NO_OF_SCHEDULED_CREATED</th>
+                <th>ORDER_TYPE_ID</th>
+                <th>ORDER_TYPE</th>
+                <th>RRP</th>
+                <th>STO_END_DATE</th>
+                <th>STO_END_DATE_KEY</th>
+                <th>STO_END_DATE_ERROR</th>
+                <th>STO_ITEM_ID</th>
+                <th>STO_ITEM_KEY</th>
+                <th>STO_ITEM_ID_ERROR</th>
+                <th>STO_NO_ID</th>
+                <th>SUBSIDIARY_ID</th>
+                <th>SUBSIDIARY_KEY</th>
+                <th>SUBSIDIARY_ID_ERROR</th>
+                <th>STO_START_DATE</th>
+                <th>STO_START_DATE_KEY</th>
+                <th>STO_START_DATE_ERROR</th>
+                <th>RECORD_STATUS</th>
+                <th>DW_CREATION_DATE</th>
+                </tr>
+        </tfoot>
+        
+ 
+    </table>
+    
+    
+    
+  <table id="pofactlog" class="table table-bordered display compact tabpohidden" style="width:100%">
+         <thead>
+            <tr>
+                <th>RUNID</th>
+                <th>PO_ERROR_KEY</th>
+                <th>DOCUMENT_NUMBER</th>
+                <th>PO_NUMBER</th>
+                <th>PO_ID</th>
+                <th>PO_LINE_ID </th>
+                <th>REF_TRX_NUMBER</th>
+                <th>REF_TRX_TYPE_KEY</th>
+                <th>VENDOR_KEY</th>
+                <th>REQUESTER_KEY</th>
+                <th>APPROVER_LEVEL1_KEY</th>
+                <th>APPROVER_LEVEL2_KEY</th>
+                <th>CREATE_DATE_KEY</th>
+                <th>TRANSACTION_DATE_KEY</th>
+                <th>SUBSIDIARY_KEY</th>
+                <th>LOCATION_KEY</th>
+                <th>COST_CENTER_KEY</th>
+                <th>EXCHANGE_RATE</th>
+                <th>ITEM_KEY</th>
+                <th>BILL_ADDRESS_LINE_1 </th>
+                <th>BILL_ADDRESS_LINE_2</th>
+                <th>BILL_ADDRESS_LINE_3</th>
+                <th>BILL_CITY</th>
+                <th>BILL_COUNTRY</th>
+                <th>BILL_STATE</th>
+                <th>BILL_ZIP</th>
+                <th>SHIP_ADDRESS_LINE_1</th>
+                <th>SHIP_ADDRESS_LINE_2</th>
+                <th>SHIP_ADDRESS_LINE_3</th>
+                <th>SHIP_CITY </th>
+                <th>SHIP_COUNTRY</th>
+                <th>SHIP_STATE</th>
+                <th>SHIP_ZIP</th>
+                <th>QUANTITY</th>
+                <th>BIH_QUANTITY</th>
+                <th>BC_QUANTITY</th>
+                <th>TRADE_QUANTITY</th>
+                <th>NZSO_QUANTITY</th>
+                <th>EDUCATION_QUANTITY</th>
+                <th>SCHOOL_ESSENTIALS_QUANTITY</th>
+                <th>BOOK_FAIR_QUANTITY </th>
+                <th>NUMBER_BILLED</th>
+                <th>QUANTITY_RECEIVED_IN_SHIPMENT</th>
+                <th>QUANTITY_RETURNED</th>
+                <th>RATE</th>
+                <th>AMOUNT</th>
+                <th>ITEM_GROSS_AMOUNT</th>
+                <th>AMOUNT_FOREIGN </th>
+                <th>NET_AMOUNT</th>
+                <th>NET_AMOUNT_FOREIGN</th>
+                <th>GROSS_AMOUNT</th>
+                <th>MATCH_BILL_TO_RECEIPT</th>
+                <th>TRACK_LANDED_COST</th>
+                <th>TAX_ITEM_KEY</th>
+                <th>TAX_AMOUNT </th>
+                <th>REQUESTED_RECEIPT_DATE_KEY </th>
+                <th>ACTUAL_DELIVERY_DATE_KEY</th>
+                <th>FREIGHT_ESTIMATE_METHOD_KEY</th>
+                <th>FREIGHT_RATE</th>
+                <th>TERMS_KEY</th>
+                <th>PO_TYPE_KEY</th>
+                <th>PO_STATUS_KEY</th>
+                <th>PO_STATUS_ERROR</th>
+                <th>APPROVAL_STATUS</th>
+                <th>CREATION_DATE</th>
+                <th>LAST_MODIFIED_DATE</th>
+                <th>CURRENCY_KEY</th>
+                <th>CLASS_KEY</th>
+                <th>CARRIER_KEY</th>
+                <th>CARRIER_ID</th>
+                <th>CARRIER_ID_ERROR</th>
+                <th>VENDOR_ID</th>
+                <th>VENDOR_ID_ERROR </th>
+                <th>REQUESTER_ID</th>
+                <th>REQUESTER_ID_ERROR</th>
+                <th>APPROVER_LEVEL1_ID</th>
+                <th>APPROVER_LEVEL1_ID_ERROR</th>
+                <th>APPROVER_LEVEL2_ID </th>
+                <th>APPROVER_LEVEL2_ID_ERROR</th>
+                <th>CREATE_DATE_ERROR</th>
+                <th>SUBSIDIARY_ID</th>
+                <th>SUBSIDIARY_ID_ERROR</th>
+                <th>LOCATION_ID</th>
+                <th>LOCATION_ID_ERROR</th>
+                <th>COST_CENTER_ID</th>
+                <th>COST_CENTER_ID_ERROR</th>
+                <th>ITEM_ID</th>
+                <th>ITEM_ID_ERROR</th>
+                <th>TAX_ITEM_ID</th>
+                <th>TAX_ITEM_ID_ERROR</th>
+                <th>REQUESTED_RECEIPT_DATE</th>
+                <th>REQUESTED_RECEIPT_DATE_ERROR</th>
+                <th>ACTUAL_DELIVERY_DATE</th>
+                <th>ACTUAL_DELIVERY_DATE_ERROR</th>
+                <th>FREIGHT_ESTIMATE_METHOD_ID</th>
+                <th>FREIGHT_ESTIMATE_METHOD_ID_ERROR</th>
+                <th>TERMS_ID</th>
+                <th>TERMS_ID_ERROR</th>
+                <th>CURRENCY_ID</th>
+                <th>CURRENCY_ID_ERROR</th>
+                <th>CLASS_ID</th>
+                <th>CLASS_ID_ERROR</th>
+                <th>CUSTOM_FORM_ID</th>
+                <th>PO_TYPE_ERROR</th>
+                <th>REF_CUSTOM_FORM_ID</th>
+                <th>REF_TRX_TYPE_ERROR</th>
+                <th>TRANDATE</th>
+                <th>TRANDATE_ERROR</th>
+                <th>PO_STATUS</th>
+                <th>RECORD_STATUS </th>
+                <th>DW_CREATION_DATE</th>
+               
+            </tr>
+           </thead>
+        <tfoot>
+        	 <tr>
+                <th>RUNID</th>
+                <th>PO_ERROR_KEY</th>
+                <th>DOCUMENT_NUMBER</th>
+                <th>PO_NUMBER</th>
+                <th>PO_ID</th>
+                <th>PO_LINE_ID </th>
+                <th>REF_TRX_NUMBER</th>
+                <th>REF_TRX_TYPE_KEY</th>
+                <th>VENDOR_KEY</th>
+                <th>REQUESTER_KEY</th>
+                <th>APPROVER_LEVEL1_KEY</th>
+                <th>APPROVER_LEVEL2_KEY</th>
+                <th>CREATE_DATE_KEY</th>
+                <th>TRANSACTION_DATE_KEY</th>
+                <th>SUBSIDIARY_KEY</th>
+                <th>LOCATION_KEY</th>
+                <th>COST_CENTER_KEY</th>
+                <th>EXCHANGE_RATE</th>
+                <th>ITEM_KEY</th>
+                <th>BILL_ADDRESS_LINE_1 </th>
+                <th>BILL_ADDRESS_LINE_2</th>
+                <th>BILL_ADDRESS_LINE_3</th>
+                <th>BILL_CITY</th>
+                <th>BILL_COUNTRY</th>
+                <th>BILL_STATE</th>
+                <th>BILL_ZIP</th>
+                <th>SHIP_ADDRESS_LINE_1</th>
+                <th>SHIP_ADDRESS_LINE_2</th>
+                <th>SHIP_ADDRESS_LINE_3</th>
+                <th>SHIP_CITY </th>
+                <th>SHIP_COUNTRY</th>
+                <th>SHIP_STATE</th>
+                <th>SHIP_ZIP</th>
+                <th>QUANTITY</th>
+                <th>BIH_QUANTITY</th>
+                <th>BC_QUANTITY</th>
+                <th>TRADE_QUANTITY</th>
+                <th>NZSO_QUANTITY</th>
+                <th>EDUCATION_QUANTITY</th>
+                <th>SCHOOL_ESSENTIALS_QUANTITY</th>
+                <th>BOOK_FAIR_QUANTITY </th>
+                <th>NUMBER_BILLED</th>
+                <th>QUANTITY_RECEIVED_IN_SHIPMENT</th>
+                <th>QUANTITY_RETURNED</th>
+                <th>RATE</th>
+                <th>AMOUNT</th>
+                <th>ITEM_GROSS_AMOUNT</th>
+                <th>AMOUNT_FOREIGN </th>
+                <th>NET_AMOUNT</th>
+                <th>NET_AMOUNT_FOREIGN</th>
+                <th>GROSS_AMOUNT</th>
+                <th>MATCH_BILL_TO_RECEIPT</th>
+                <th>TRACK_LANDED_COST</th>
+                <th>TAX_ITEM_KEY</th>
+                <th>TAX_AMOUNT </th>
+                <th>REQUESTED_RECEIPT_DATE_KEY </th>
+                <th>ACTUAL_DELIVERY_DATE_KEY</th>
+                <th>FREIGHT_ESTIMATE_METHOD_KEY</th>
+                <th>FREIGHT_RATE</th>
+                <th>TERMS_KEY</th>
+                <th>PO_TYPE_KEY</th>
+                <th>PO_STATUS_KEY</th>
+                <th>PO_STATUS_ERROR</th>
+                <th>APPROVAL_STATUS</th>
+                <th>CREATION_DATE</th>
+                <th>LAST_MODIFIED_DATE</th>
+                <th>CURRENCY_KEY</th>
+                <th>CLASS_KEY</th>
+                <th>CARRIER_KEY</th>
+                <th>CARRIER_ID</th>
+                <th>CARRIER_ID_ERROR</th>
+                <th>VENDOR_ID</th>
+                <th>VENDOR_ID_ERROR </th>
+                <th>REQUESTER_ID</th>
+                <th>REQUESTER_ID_ERROR</th>
+                <th>APPROVER_LEVEL1_ID</th>
+                <th>APPROVER_LEVEL1_ID_ERROR</th>
+                <th>APPROVER_LEVEL2_ID </th>
+                <th>APPROVER_LEVEL2_ID_ERROR</th>
+                <th>CREATE_DATE_ERROR</th>
+                <th>SUBSIDIARY_ID</th>
+                <th>SUBSIDIARY_ID_ERROR</th>
+                <th>LOCATION_ID</th>
+                <th>LOCATION_ID_ERROR</th>
+                <th>COST_CENTER_ID</th>
+                <th>COST_CENTER_ID_ERROR</th>
+                <th>ITEM_ID</th>
+                <th>ITEM_ID_ERROR</th>
+                <th>TAX_ITEM_ID</th>
+                <th>TAX_ITEM_ID_ERROR</th>
+                <th>REQUESTED_RECEIPT_DATE</th>
+                <th>REQUESTED_RECEIPT_DATE_ERROR</th>
+                <th>ACTUAL_DELIVERY_DATE</th>
+                <th>ACTUAL_DELIVERY_DATE_ERROR</th>
+                <th>FREIGHT_ESTIMATE_METHOD_ID</th>
+                <th>FREIGHT_ESTIMATE_METHOD_ID_ERROR</th>
+                <th>TERMS_ID</th>
+                <th>TERMS_ID_ERROR</th>
+                <th>CURRENCY_ID</th>
+                <th>CURRENCY_ID_ERROR</th>
+                <th>CLASS_ID</th>
+                <th>CLASS_ID_ERROR</th>
+                <th>CUSTOM_FORM_ID</th>
+                <th>PO_TYPE_ERROR</th>
+                <th>REF_CUSTOM_FORM_ID</th>
+                <th>REF_TRX_TYPE_ERROR</th>
+                <th>TRANDATE</th>
+                <th>TRANDATE_ERROR</th>
+                <th>PO_STATUS</th>
+                <th>RECORD_STATUS </th>
+                <th>DW_CREATION_DATE</th>
+               
+            </tr>
+        </tfoot>
+        
+ 
+    </table>
+  
+  <table id="sofactlog" class="table table-bordered display compact tabsohidden" style="width:100%">
+         <thead>
+            <tr>
+                <th>RUNID</th>
+                <th>SO_ERROR_KEY</th>
+                <th>DOCUMENT_NUMBER</th>
+                <th>TRANSACTION_NUMBER</th>
+                <th>TRANSACTION_ID</th>
+                <th>TRANSACTION_LINE_ID</th>
+                <th>REF_DOC_NUMBER</th>
+                <th>REF_DOC_TYPE_KEY</th>
+                <th>TERMS_KEY</th>
+                <th>REVENUE_COMMITMENT_STATUS</th>
+                <th>REVENUE_STATUS</th>
+                <th>SALES_REP_KEY</th>
+                <th>TERRITORY_KEY</th>
+                <th>BILL_ADDRESS_LINE_1</th>
+                <th>BILL_ADDRESS_LINE_2</th>
+                <th>BILL_ADDRESS_LINE_3</th>
+                <th>BILL_CITY</th>
+                <th>BILL_COUNTRY</th>
+                <th>BILL_STATE</th>
+                <th>BILL_ZIP</th>
+                <th>SHIP_ADDRESS_LINE_1</th>
+                <th>SHIP_ADDRESS_LINE_2</th>
+                <th>SHIP_ADDRESS_LINE_3</th>
+                <th>SHIP_CITY</th>
+                <th>SHIP_COUNTRY</th>
+                <th>SHIP_STATE</th>
+                <th>SHIP_ZIP</th>
+                <th>DOCUMENT_STATUS_KEY</th>
+                <th>DOCUMENT_TYPE_KEY</th>
+                <th>CURRENCY_KEY</th>
+                <th>TRANSACTION_DATE_KEY</th>
+                <th>EXCHANGE_RATE</th>
+                <th>ACCOUNT_KEY</th>
+                <th>AMOUNT</th>
+                <th>AMOUNT_FOREIGN</th>
+                <th>GROSS_AMOUNT</th>
+                <th>NET_AMOUNT</th>
+                <th>NET_AMOUNT_FOREIGN</th>
+                <th>RRP</th>
+                <th>AVG_COST</th>
+                <th>QUANTITY</th>
+                <th>COMMITTED_QUANTITY</th>
+                <th>ITEM_KEY</th>
+                <th>REWARDS_EARN</th>
+                <th>REWARD_BALANCE</th>
+                <th>ITEM_UNIT_PRICE</th>
+                <th>TAX_ITEM_KEY</th>
+                <th>TAX_AMOUNT</th>
+                <th>LOCATION_KEY</th>
+                <th>CLASS_KEY</th>
+                <th>SUBSIDIARY_KEY</th>
+                <th>ACCOUNTING_PERIOD_KEY</th>
+                <th>CUSTOMER_KEY</th>
+                <th>PRICE_TYPE_ID</th>
+                <th>PRICE_TYPE</th>
+                <th>PRODUCT_CATALOGUE_KEY</th>
+                <th>BROCHURE_CODE</th>
+                <th>TEACHER_KEY</th>
+                <th>BOOK_FAIRS_CONSULTANT_KEY</th>
+                <th>NEXT_ACTION</th>
+                <th>PREPACK_KEY</th>
+                <th>REF_CUSTOM_FORM_ID</th>
+                <th>REF_TRANSACTION_TYPE_ERROR</th>
+                <th>CUSTOM_FORM_ID</th>
+                <th>TRANSACTION_TYPE_ERROR</th>
+                <th>PAYMENT_TERMS_ID</th>
+                <th>PAYMENT_TERMS_ID_ERROR</th>
+                <th>SALES_REP_ID</th>
+                <th>SALES_REP_ID_ERROR</th>
+                <th>SALES_TERRITORY_ID</th>
+                <th>TERRITORY_ID_ERROR</th>
+                <th>STATUS</th>
+                <th>STATUS_ERROR</th>
+                <th>CURRENCY_ID</th>
+                <th>CURRENCY_ID_ERROR</th>
+                <th>TRANDATE</th>
+                <th>TRANDATE_ERROR</th>
+                <th>ACCOUNT_ID</th>
+                <th>ACCOUNT_ID_ERROR</th>
+                <th>ITEM_ID</th>
+                <th>ITEM_ID_ERROR</th>
+                <th>TAX_ITEM_ID</th>
+                <th>TAX_ITEM_ID_ERROR</th>
+                <th>LOCATION_ID</th>
+                <th>LOCATION_ID_ERROR</th>
+                <th>CLASS_ID</th>
+                <th>CLASS_ID_ERROR</th>
+                <th>SUBSIDIARY_ID</th>
+                <th>SUBSIDIARY_ID_ERROR</th>
+                <th>CUSTOMER_ID</th>
+                <th>CUSTOMER_ID_ERROR</th>
+                <th>ACCOUNTING_PERIOD_ID</th>
+                <th>ACCOUNTING_PERIOD_ID_ERROR</th>
+                <th>TRANSACTION_TYPE</th>
+                <th>PREPACK_ID</th>
+                <th>PREPACK_ID_ERROR</th>
+                <th>PRODUCT_CATALOGUE_ID</th>
+                <th>PRODUCT_CATALOGUE_ID_ERROR</th>
+                <th>TEACHER_ID</th>
+                <th>TEACHER_ID_ERROR</th>
+                <th>BOOK_FAIRS_CONSULTANT_ID</th>
+                <th>BOOK_FAIRS_CONSULTANT_ID_ERROR</th>
+                <th>RECORD_STATUS</th>
+                <th>DW_CREATION_DATE</th>
+                </tr>
+           </thead>
+        <tfoot>
+        	 <tr>
+                <th>RUNID</th>
+                <th>SO_ERROR_KEY</th>
+                <th>DOCUMENT_NUMBER</th>
+                <th>TRANSACTION_NUMBER</th>
+                <th>TRANSACTION_ID</th>
+                <th>TRANSACTION_LINE_ID</th>
+                <th>REF_DOC_NUMBER</th>
+                <th>REF_DOC_TYPE_KEY</th>
+                <th>TERMS_KEY</th>
+                <th>REVENUE_COMMITMENT_STATUS</th>
+                <th>REVENUE_STATUS</th>
+                <th>SALES_REP_KEY</th>
+                <th>TERRITORY_KEY</th>
+                <th>BILL_ADDRESS_LINE_1</th>
+                <th>BILL_ADDRESS_LINE_2</th>
+                <th>BILL_ADDRESS_LINE_3</th>
+                <th>BILL_CITY</th>
+                <th>BILL_COUNTRY</th>
+                <th>BILL_STATE</th>
+                <th>BILL_ZIP</th>
+                <th>SHIP_ADDRESS_LINE_1</th>
+                <th>SHIP_ADDRESS_LINE_2</th>
+                <th>SHIP_ADDRESS_LINE_3</th>
+                <th>SHIP_CITY</th>
+                <th>SHIP_COUNTRY</th>
+                <th>SHIP_STATE</th>
+                <th>SHIP_ZIP</th>
+                <th>DOCUMENT_STATUS_KEY</th>
+                <th>DOCUMENT_TYPE_KEY</th>
+                <th>CURRENCY_KEY</th>
+                <th>TRANSACTION_DATE_KEY</th>
+                <th>EXCHANGE_RATE</th>
+                <th>ACCOUNT_KEY</th>
+                <th>AMOUNT</th>
+                <th>AMOUNT_FOREIGN</th>
+                <th>GROSS_AMOUNT</th>
+                <th>NET_AMOUNT</th>
+                <th>NET_AMOUNT_FOREIGN</th>
+                <th>RRP</th>
+                <th>AVG_COST</th>
+                <th>QUANTITY</th>
+                <th>COMMITTED_QUANTITY</th>
+                <th>ITEM_KEY</th>
+                <th>REWARDS_EARN</th>
+                <th>REWARD_BALANCE</th>
+                <th>ITEM_UNIT_PRICE</th>
+                <th>TAX_ITEM_KEY</th>
+                <th>TAX_AMOUNT</th>
+                <th>LOCATION_KEY</th>
+                <th>CLASS_KEY</th>
+                <th>SUBSIDIARY_KEY</th>
+                <th>ACCOUNTING_PERIOD_KEY</th>
+                <th>CUSTOMER_KEY</th>
+                <th>PRICE_TYPE_ID</th>
+                <th>PRICE_TYPE</th>
+                <th>PRODUCT_CATALOGUE_KEY</th>
+                <th>BROCHURE_CODE</th>
+                <th>TEACHER_KEY</th>
+                <th>BOOK_FAIRS_CONSULTANT_KEY</th>
+                <th>NEXT_ACTION</th>
+                <th>PREPACK_KEY</th>
+                <th>REF_CUSTOM_FORM_ID</th>
+                <th>REF_TRANSACTION_TYPE_ERROR</th>
+                <th>CUSTOM_FORM_ID</th>
+                <th>TRANSACTION_TYPE_ERROR</th>
+                <th>PAYMENT_TERMS_ID</th>
+                <th>PAYMENT_TERMS_ID_ERROR</th>
+                <th>SALES_REP_ID</th>
+                <th>SALES_REP_ID_ERROR</th>
+                <th>SALES_TERRITORY_ID</th>
+                <th>TERRITORY_ID_ERROR</th>
+                <th>STATUS</th>
+                <th>STATUS_ERROR</th>
+                <th>CURRENCY_ID</th>
+                <th>CURRENCY_ID_ERROR</th>
+                <th>TRANDATE</th>
+                <th>TRANDATE_ERROR</th>
+                <th>ACCOUNT_ID</th>
+                <th>ACCOUNT_ID_ERROR</th>
+                <th>ITEM_ID</th>
+                <th>ITEM_ID_ERROR</th>
+                <th>TAX_ITEM_ID</th>
+                <th>TAX_ITEM_ID_ERROR</th>
+                <th>LOCATION_ID</th>
+                <th>LOCATION_ID_ERROR</th>
+                <th>CLASS_ID</th>
+                <th>CLASS_ID_ERROR</th>
+                <th>SUBSIDIARY_ID</th>
+                <th>SUBSIDIARY_ID_ERROR</th>
+                <th>CUSTOMER_ID</th>
+                <th>CUSTOMER_ID_ERROR</th>
+                <th>ACCOUNTING_PERIOD_ID</th>
+                <th>ACCOUNTING_PERIOD_ID_ERROR</th>
+                <th>TRANSACTION_TYPE</th>
+                <th>PREPACK_ID</th>
+                <th>PREPACK_ID_ERROR</th>
+                <th>PRODUCT_CATALOGUE_ID</th>
+                <th>PRODUCT_CATALOGUE_ID_ERROR</th>
+                <th>TEACHER_ID</th>
+                <th>TEACHER_ID_ERROR</th>
+                <th>BOOK_FAIRS_CONSULTANT_ID</th>
+                <th>BOOK_FAIRS_CONSULTANT_ID_ERROR</th>
+                <th>RECORD_STATUS</th>
+                <th>DW_CREATION_DATE</th>
+                </tr>
+        </tfoot>
+        
+ 
+    </table>
+  
+   <table id="revenuefactlog" class="table table-bordered display compact tabrevenuehidden" style="width:100%">
+         <thead>
+            <tr>
+                <th>RunID</th>
+                <th>Revenue Error Key</th>
+                <th>Document Number</th>
+                <th>Transaction Number</th>
+                <th>TransactionID </th>
+                <th>Transaction LineID </th>
+                <th>REF DOC Number</th>
+                <th>REF_DOC_Type_Key</th>
+                <th>Terms Key</th>
+                <th>Revenue Commitment Status</th>
+                <th>Revenue Status</th>
+                <th>Sales REP Key</th>
+                <th>TERRITORY_KEY</th>
+                <th>BILL_ADDRESS_LINE_1</th>
+                <th>BILL_ADDRESS_LINE_2</th>
+                <th>BILL_ADDRESS_LINE_3</th>
+                <th>BILL_CITY</th>
+                <th>BILL_COUNTRY</th>
+                <th>BILL_STATE</th>
+                <th>BILL_ZIP</th>
+                <th>SHIP_ADDRESS_LINE_1</th>
+                <th>SHIP_ADDRESS_LINE_2</th>
+                <th>SHIP_ADDRESS_LINE_3</th>
+                <th>SHIP_CITY</th>
+                <th>SHIP_COUNTRY</th>
+                <th>SHIP_STATE</th>
+                <th>SHIP_ZIP</th>
+                <th>DOCUMENT_STATUS_KEY</th>
+                <th>DOCUMENT_TYPE_KEY</th>
+                <th>CURRENCY_KEY</th>
+                <th>TRANSACTION_DATE_KEY</th>
+                <th>EXCHANGE_RATE</th>
+                <th>ACCOUNT_KEY</th>
+                <th>AMOUNT</th>
+                <th>AMOUNT_FOREIGN</th>
+                <th>GROSS_AMOUNT</th>
+                <th>NET_AMOUNT</th>
+                <th>NET_AMOUNT_FOREIGN</th>
+                <th>RRP</th>
+                <th>AVG_COST</th>
+                <th>QUANTITY</th>
+                <th>ITEM_KEY</th>
+                <th>RATE</th>
+                <th>TAX_ITEM_KEY</th>
+                <th>TAX_AMOUNT</th>
+                <th>LOCATION_KEY</th>
+                <th>CLASS_KEY</th>
+                <th>SUBSIDIARY_KEY</th>
+                <th>CUSTOMER_KEY</th>
+                <th>ACCOUNTING_PERIOD_KEY</th>
+                <th>REF_CUSTOM_FORM_ID</th>
+                <th>REF_TRANSACTION_TYPE_ERROR</th>
+                <th>CUSTOM_FORM_ID</th>
+                <th>TRANSACTION_TYPE_ERROR</th>
+                <th>PAYMENT_TERMS_ID</th>
+                <th>PAYMENT_TERMS_ID_ERROR</th>
+                <th>SALES_REP_ID</th>
+                <th>SALES_REP_ID_ERROR</th>
+                <th>SALES_TERRITORY_ID</th>
+                <th>TERRITORY_ID_ERROR</th>
+                <th>STATUS</th>
+                <th>STATUS_ERROR</th>
+                <th>CURRENCY_ID</th>
+                <th>CURRENCY_ID_ERROR</th>
+                <th>TRANDATE</th>
+                <th>TRANDATE_ERROR</th>
+                <th>ACCOUNT_ID</th>
+                <th>ACCOUNT_ID_ERROR</th>
+                <th>ITEM_ID</th>
+                <th>ITEM_ID_ERROR</th>
+                <th>TAX_ITEM_ID</th>
+                <th>TAX_ITEM_ID_ERROR</th>
+                <th>LOCATION_ID</th>
+                <th>LOCATION_ID_ERROR</th>
+                <th>CLASS_ID</th>
+                <th>CLASS_ID_ERROR</th>
+                <th>SUBSIDIARY_ID</th>
+                <th>SUBSIDIARY_ID_ERROR</th>
+                <th>CUSTOMER_ID</th>
+                <th>CUSTOMER_ID_ERROR</th>
+                <th>ACCOUNTING_PERIOD_ID</th>
+                <th>ACCOUNTING_PERIOD_ID_ERROR</th>
+                <th>TRANSACTION_TYPE</th>
+                <th>PREPACK_ID</th>
+                <th>PREPACK_KEY</th>
+                <th>PREPACK_ID_ERROR</th>
+                <th>PRODUCT_CATALOGUE_ID</th>
+                <th>PRODUCT_CATALOGUE_KEY</th>
+                <th>PRODUCT_CATALOGUE_ID_ERROR</th>
+                <th>PRICE_TYPE</th>
+                <th>RECORD_STATUS</th>
+                <th>DW_CREATION_DATE </th>
+            </tr>
+           </thead>
+        <tfoot>
+        	<tr>
+                <th>RunID</th>
+                <th>Revenue Error Key</th>
+                <th>Document Number</th>
+                <th>Transaction Number</th>
+                <th>TransactionID </th>
+                <th>Transaction LineID </th>
+                <th>REF DOC Number</th>
+                <th>REF_DOC_Type_Key</th>
+                <th>Terms Key</th>
+                <th>Revenue Commitment Status</th>
+                <th>Revenue Status</th>
+                <th>Sales REP Key</th>
+                <th>TERRITORY_KEY</th>
+                <th>BILL_ADDRESS_LINE_1</th>
+                <th>BILL_ADDRESS_LINE_2</th>
+                <th>BILL_ADDRESS_LINE_3</th>
+                <th>BILL_CITY</th>
+                <th>BILL_COUNTRY</th>
+                <th>BILL_STATE</th>
+                <th>BILL_ZIP</th>
+                <th>SHIP_ADDRESS_LINE_1</th>
+                <th>SHIP_ADDRESS_LINE_2</th>
+                <th>SHIP_ADDRESS_LINE_3</th>
+                <th>SHIP_CITY</th>
+                <th>SHIP_COUNTRY</th>
+                <th>SHIP_STATE</th>
+                <th>SHIP_ZIP</th>
+                <th>DOCUMENT_STATUS_KEY</th>
+                <th>DOCUMENT_TYPE_KEY</th>
+                <th>CURRENCY_KEY</th>
+                <th>TRANSACTION_DATE_KEY</th>
+                <th>EXCHANGE_RATE</th>
+                <th>ACCOUNT_KEY</th>
+                <th>AMOUNT</th>
+                <th>AMOUNT_FOREIGN</th>
+                <th>GROSS_AMOUNT</th>
+                <th>NET_AMOUNT</th>
+                <th>NET_AMOUNT_FOREIGN</th>
+                <th>RRP</th>
+                <th>AVG_COST</th>
+                <th>QUANTITY</th>
+                <th>ITEM_KEY</th>
+                <th>RATE</th>
+                <th>TAX_ITEM_KEY</th>
+                <th>TAX_AMOUNT</th>
+                <th>LOCATION_KEY</th>
+                <th>CLASS_KEY</th>
+                <th>SUBSIDIARY_KEY</th>
+                <th>CUSTOMER_KEY</th>
+                <th>ACCOUNTING_PERIOD_KEY</th>
+                <th>REF_CUSTOM_FORM_ID</th>
+                <th>REF_TRANSACTION_TYPE_ERROR</th>
+                <th>CUSTOM_FORM_ID</th>
+                <th>TRANSACTION_TYPE_ERROR</th>
+                <th>PAYMENT_TERMS_ID</th>
+                <th>PAYMENT_TERMS_ID_ERROR</th>
+                <th>SALES_REP_ID</th>
+                <th>SALES_REP_ID_ERROR</th>
+                <th>SALES_TERRITORY_ID</th>
+                <th>TERRITORY_ID_ERROR</th>
+                <th>STATUS</th>
+                <th>STATUS_ERROR</th>
+                <th>CURRENCY_ID</th>
+                <th>CURRENCY_ID_ERROR</th>
+                <th>TRANDATE</th>
+                <th>TRANDATE_ERROR</th>
+                <th>ACCOUNT_ID</th>
+                <th>ACCOUNT_ID_ERROR</th>
+                <th>ITEM_ID</th>
+                <th>ITEM_ID_ERROR</th>
+                <th>TAX_ITEM_ID</th>
+                <th>TAX_ITEM_ID_ERROR</th>
+                <th>LOCATION_ID</th>
+                <th>LOCATION_ID_ERROR</th>
+                <th>CLASS_ID</th>
+                <th>CLASS_ID_ERROR</th>
+                <th>SUBSIDIARY_ID</th>
+                <th>SUBSIDIARY_ID_ERROR</th>
+                <th>CUSTOMER_ID</th>
+                <th>CUSTOMER_ID_ERROR</th>
+                <th>ACCOUNTING_PERIOD_ID</th>
+                <th>ACCOUNTING_PERIOD_ID_ERROR</th>
+                <th>TRANSACTION_TYPE</th>
+                <th>PREPACK_ID</th>
+                <th>PREPACK_KEY</th>
+                <th>PREPACK_ID_ERROR</th>
+                <th>PRODUCT_CATALOGUE_ID</th>
+                <th>PRODUCT_CATALOGUE_KEY</th>
+                <th>PRODUCT_CATALOGUE_ID_ERROR</th>
+                <th>PRICE_TYPE</th>
+                <th>RECORD_STATUS</th>
+                <th>DW_CREATION_DATE </th>
+            </tr>
+        </tfoot>
+        
+ 
+    </table>
+  
+  </div>
+  
+  </div>
 </div>
-</div>
-
 </body>
 </html>
