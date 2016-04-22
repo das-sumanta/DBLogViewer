@@ -140,28 +140,26 @@ body {
    .tabhidden{
    display:none;
    }
-   .tabpohidden{
-   display:none;
-   }
-    .tabsohidden{
-   display:none;
-   }
-   .tabrevenuehidden{
-   display:none;
-   }
-   .tabamortizationhidden{
-   display:none;
-   }
-   
-   .tabvbhidden{
-   display:none;
-   }
-   
-   .tabophidden{
-   display:none;
-   }
-   
-    .tabbudgetforecasthidden{
-   display:none;
-   }
-   
+#displayTable{
+	overflow-x:scroll;
+	overflow-y:auto;
+}
+.animation {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .6 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
+}
+body.loading {
+    overflow: hidden;   
+}
+body.loading .modal {
+    display: block;
+}

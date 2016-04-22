@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>:::DBLog Viewer:::</title>
@@ -16,7 +16,7 @@
     <script src="js/logview.js"></script>
    
 </head>
-<body>
+ <body>
 	<div style="background-color:#92795c; color:white; padding:10px; border-radius:5px; font-family:Arial, Helvetica, sans-serif; position:relative; width:auto;" >
 		<table border="0" width="100%">
 			<tr>
@@ -61,6 +61,7 @@
 			</tr>
 		</table>
 	</div>
+
 	<div class="hidden" id="datatable">
 		<div id="tabs" >
   			<ul>
@@ -68,79 +69,7 @@
    				<li  style="font-size:15px; font-family:Arial, Helvetica, sans-serif;"><a href="#tabs-2">Message Log</a></li>
     			<li  style="font-size:15px; font-family:Arial, Helvetica, sans-serif;"><a href="#tabs-3">Error Log</a></li>
   			</ul>
-		
-		
-			<div id="tabs-1" >
-	     		<table id="JobLog" class="table table-bordered display compact"  style="width:100%">
-	        		<thead>
-	            		<tr>
-			                <th>JobID</th>
-			                <th id="th2">RunID</th>
-			                <th>Entity</th>
-			                <th>Run Mode</th>
-			                <th>ExtractStartTime</th>
-			                <th>ExtractEndTime</th>
-			                <th>S3LoadStartTime</th>
-			                <th>S3LoadEndTime</th>
-			                <th>RedShiftLoadStart</th>
-			                <th>RedShiftLoadEnd</th>
-			                <th>Job Status</th>
-			                <th>Subsidiary ID</th>
-	            		</tr>
-	        		</thead>
-	        		<tfoot>
-			            <tr>
-			                <th>JobID</th>
-			                <th>RunID</th>
-			                <th>Entity</th>
-			                <th>Run Mode</th>
-			                <th>ExtractStartTime</th>
-			                <th>ExtractEndTime</th>
-			                <th>S3LoadStartTime</th>
-			                <th>S3LoadEndTime</th>
-			                <th>RedShiftLoadStart</th>
-			                <th>RedShiftLoadEnd</th>
-			                <th>Job Status</th>
-			                <th>Subsidiary ID</th>
-			            </tr>
-	        		</tfoot>
-	        	</table>
-	  		</div>
-  		
-	  		<div id="tabs-2">
-	   			<table id="MessageLog" class="table table-bordered display compact" style="width:100%">
-			         <thead>
-			            <tr>
-			                <th>MessageID</th>
-			                <th id="thOne">RunID</th>
-			                 <th>Message Desc</th>
-			                <th>Target Table</th>
-			                <th>Message Stage</th>
-			                <th>Message Type</th>
-			                <th>Message TimeStamp</th>
-			                <th>Subsidiary ID</th>
-			            </tr>
-			        </thead>
-			        <tfoot>
-			        	<tr>
-			                <th>MessageID</th>
-			                <th>RunID</th>
-			                <th>Message Desc</th>
-			                <th>Target Table</th>
-			                <th>Message Stage</th>
-			                <th>Message Type</th>
-			                <th>Message TimeStamp</th>
-			                <th>Subsidiary ID</th>
-			            </tr>
-			        </tfoot>
-	  			</table>
-	  		</div>
-  		
-	  		<div id="tabs-3" class="tabhidden">
-	  		</div> 
- 		</div>
-	</div>
-	<div class="animation" id="loading">
+		</div>
 	</div>
  </body>
 </html>
