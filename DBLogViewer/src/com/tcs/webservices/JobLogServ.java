@@ -288,28 +288,28 @@ public String retriveerrorlog(@QueryParam("runid") String runID,@QueryParam("etl
     	
     	
     	query = "SELECT *  FROM p2p_config WHERE property in ('RSCLASS','RSUID','RSDBURL','RSPWD')";
-    	System.out.println(query);
+    	
     	st = con.prepareStatement(query);
     	rs = st.executeQuery();
     	
     	while(rs.next()){
     		
-    		//System.out.println(rs.getString(2));
+    		
     		if(rs.getString(2).equals("RSCLASS")){
     			rsCls = EncryptionUtil.decrypt(rs.getString(3), "EncryptingKey$@!") ;
-    			System.out.println(rsCls);
+    			
     		}
     		if(rs.getString(2).equals("RSUID")){
     			rsUID = EncryptionUtil.decrypt(rs.getString(3),"EncryptingKey$@!");
-    			System.out.println(rsUID);    			
+    			    			
     		}
     		if(rs.getString(2).equals("RSDBURL")){
     			rsURL = EncryptionUtil.decrypt(rs.getString(3),"EncryptingKey$@!");
-    			System.out.println(rsURL);
+    			
     		}
     		if(rs.getString(2).equals("RSPWD")){
     			rsPwd = EncryptionUtil.decrypt(rs.getString(3),"EncryptingKey$@!");
-    			System.out.println(rsPwd);
+    			
     		}
     	
     	}
@@ -320,7 +320,6 @@ public String retriveerrorlog(@QueryParam("runid") String runID,@QueryParam("etl
     	Class.forName(rsCls);
     	con = DriverManager.getConnection(rsURL,rsUID,rsPwd);
     	query2 = "Select * from dw."+tables+"_error" ;
-    	System.out.println(query2);
     	st = con.prepareStatement(query2);
     	//st.setString(1,tables );
     	rs = st.executeQuery(); 
